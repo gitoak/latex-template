@@ -1,9 +1,9 @@
-name: Build & Release PDF
+name: Build & Release PDFs
 
 on:
   push:
     tags:
-      - '*'   # any tag triggers
+      - '*'   # any tag -> release
 
 jobs:
   build-release:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install TeX Live (LuaLaTeX stack)
+      - name: Install TeX Live + deps
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -29,15 +29,15 @@ jobs:
             latexmk \
             make
 
-      - name: Build PDF with latexmk (LuaLaTeX)
+      - name: Build all PDFs (LuaLaTeX via latexmk)
         run: |
-          make
-          test -f main.pdf
+          make release-build
+          ls -l *.pdf || echo "No PDFs found in root."
 
-      - name: Create / Update GitHub Release and upload PDF
+      - name: Create / Update GitHub Release and upload PDFs
         uses: softprops/action-gh-release@v2
         with:
-          files: main.pdf
+          files: "*.pdf"
           draft: false
           prerelease: false
         env:
