@@ -13,6 +13,21 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Cache TeX Live packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/share/texlive
+            /usr/share/texmf
+            /var/lib/texmf
+            /usr/bin/tex*
+            /usr/bin/lua*
+            /usr/bin/biber
+            /usr/bin/latexmk
+          key: ${{ runner.os }}-texlive-${{ hashFiles('**/*.tex', 'preamble.tex') }}
+          restore-keys: |
+            ${{ runner.os }}-texlive-
+
       - name: Install TeX Live + deps
         run: |
           sudo apt-get update
