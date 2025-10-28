@@ -1,0 +1,42 @@
+\documentclass[11pt,a4paper]{article}
+% swap to:
+%   \documentclass{beamer}      % slides
+%   \documentclass[11pt]{report}% thesis/report
+%   \documentclass[10pt]{article}% CV, tighter look
+%
+% The template doesn't lock you in.
+
+\input{preamble.tex}
+
+\title{\DocumentTitle \\ \large \DocumentSubtitle}
+\author{\AuthorName \\ \href{mailto:\AuthorEmail}{\AuthorEmail}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty} % no page num on first page, nice for CV/cover letter
+
+% ----- ABSTRACT / SUMMARY / PROFILE -----
+\begin{abstract}
+Short summary / abstract / professional profile.
+Delete this environment if you don't need it.
+\end{abstract}
+
+% ----- MAIN BODY -----
+\section{Introduction}
+\label{sec:intro}
+Hello, world. This is a generic LuaLaTeX project template.
+See \cref{sec:example-section} for an included file.
+
+Here is an inline citation \parencite{examplekey} and a text citation \textcite{examplekey}.
+
+\input{sections/example-section.tex}
+
+\section{Conclusion}
+Your conclusion goes here.
+
+% ----- BIBLIOGRAPHY -----
+\printbibliography
+
+\end{document}

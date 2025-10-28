@@ -1,0 +1,85 @@
+% ---------- Encoding / language / fonts ----------
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+% Use TeX Gyre Termes, which ships with TeX Live, including bold/italic faces.
+% This avoids the "Latin Modern Roman Bold not found" crash on Arch/GitHub CI.
+\setmainfont{TeX Gyre Termes}
+
+\usepackage[english]{babel}
+\usepackage{microtype}
+
+% ---------- Page layout ----------
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}          % \onehalfspacing etc.
+
+% ---------- Math / symbols ----------
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+
+% ---------- Graphics / floats / tables ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+% --- Optional siunitx (numbers/units pretty printing) ---
+% We'll try to load it, but if it's not around (rare on fresh TeX splits),
+% we stub \num so docs still compile.
+\IfFileExists{siunitx.sty}{
+  \usepackage{siunitx}
+  \sisetup{detect-all}
+}{
+  \newcommand{\num}[1]{##1}
+}
+
+% ---------- Links / refs ----------
+\usepackage[
+  pdfauthor={Your Name},
+  pdftitle={Document Title},
+  pdfsubject={},
+  pdfkeywords={},
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+]{hyperref}
+
+\usepackage[nameinlink,capitalise]{cleveref}
+
+% ---------- Bibliography ----------
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt,
+  maxcitenames=2,
+  maxbibnames=99
+]{biblatex}
+\addbibresource{refs.bib}
+
+\usepackage{csquotes} % recommended with biblatex
+
+% ---------- Lists ----------
+\usepackage{enumitem}
+\setlist{nosep}
+
+% ---------- Common reusable metadata/macros ----------
+\newcommand{\AuthorName}{Your Name}
+\newcommand{\AuthorEmail}{you@example.com}
+\newcommand{\DocumentTitle}{Document Title}
+\newcommand{\DocumentSubtitle}{Subtitle or Tagline}
+
+% CV helpers
+\newcommand{\CVItem}[2]{\textbf{#1} \hfill #2\\}
+\newcommand{\CVSubItem}[2]{\quad #1 \hfill #2\\}
+
+% Math helpers
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vect}[1]{\mathbf{#1}}
+
+% ---------- theorem envs ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}

@@ -1,0 +1,38 @@
+\section{Example Section}
+\label{sec:example-section}
+
+This is an example section coming from \texttt{sections/example-section.tex}.
+
+\subsection{Math}
+Some math:
+\begin{align}
+f(x) &= x^2 + 2x + 1 \\
+     &= (x + 1)^2.
+\end{align}
+
+\subsection{Table}
+\cref{tab:demo} shows a demo table.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lrr}
+    \toprule
+    Item & Count & Value \\
+    \midrule
+    Apples  & 12 & \num{3.5} \\
+    Oranges &  4 & \num{10.2} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Demo table.}
+  \label{tab:demo}
+\end{table}
+
+\subsection{Figure}
+\cref{fig:demo} is a placeholder figure.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{figs/placeholder.png}
+  \caption{Demo figure. Replace \texttt{figs/placeholder.png} with your own.}
+  \label{fig:demo}
+\end{figure}

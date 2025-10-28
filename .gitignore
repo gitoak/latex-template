@@ -1,0 +1,32 @@
+# latexmk / TeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# output dirs
+out/
+build/
+
+# final pdf
+main.pdf
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# VS Code noise
+.vscode/*.log
+.vscode/ipch

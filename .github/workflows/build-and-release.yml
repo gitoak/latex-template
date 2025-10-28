@@ -1,0 +1,44 @@
+name: Build & Release PDF
+
+on:
+  push:
+    tags:
+      - '*'   # any tag triggers
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live (LuaLaTeX stack)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-binaries \
+            texlive-luatex \
+            texlive-bibtex-extra \
+            biber \
+            latexmk \
+            make
+
+      - name: Build PDF with latexmk (LuaLaTeX)
+        run: |
+          make
+          test -f main.pdf
+
+      - name: Create / Update GitHub Release and upload PDF
+        uses: softprops/action-gh-release@v2
+        with:
+          files: main.pdf
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
