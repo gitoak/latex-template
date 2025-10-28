@@ -1,4 +1,4 @@
-# LaTeX Project Template (LuaLaTeX, multi-doc aware)# LaTeX Project Template (LuaLaTeX, multi-doc aware)
+# LaTeX Project Template (LuaLaTeX, multi-doc aware)
 
 
 
