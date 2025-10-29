@@ -1,61 +1,34 @@
 # LaTeX Project Template (LuaLaTeX, multi-doc aware)
 
+General-purpose LaTeX template for:
+- CV / resume
+- motivation letter
+- papers / homework / reports
+- slides (if you change the `\documentclass` to beamer)
+- multiple independent PDFs in one repo
 
 
-General-purpose LaTeX template for:General-purpose LaTeX template for:
+## Highlights
 
-- CV / resume- CV / resume
-
-- motivation letter- motivation letter
-
-- papers / homework / reports- papers / homework / reports
-
-- slides (if you change the `\documentclass` to beamer)- slides (if you change the `\documentclass` to beamer)
-
-- multiple independent PDFs in one repo- multiple independent PDFs in one repo
+- **LuaLaTeX** (Unicode + system fonts)
+- `latexmk` incremental builds
+- VS Code + LaTeX Workshop config baked in
+- `docs.mk` controls which PDFs get built
+- GitHub Actions builds every PDF listed in `docs.mk` on tag push and uploads them to a Release
+---
 
 
+## 1. Local requirements (Arch Linux example)
 
-## Highlights## Highlights
-
-- **LuaLaTeX** (Unicode + system fonts)- **LuaLaTeX** (Unicode + system fonts)
-
-- `latexmk` incremental builds- `latexmk` incremental builds
-
-- VS Code + LaTeX Workshop config baked in- VS Code + LaTeX Workshop config baked in
-
-- `docs.mk` controls which PDFs get built- `docs.mk` controls which PDFs get built
-
-- GitHub Actions builds every PDF listed in `docs.mk` on tag push and uploads them to a Release- GitHub Actions builds every PDF listed in `docs.mk` on tag push and uploads them to a Release
-
-
-
-------
-
-
-
-## 1. Local requirements (Arch Linux example)## 1. Local requirements (Arch Linux example)
-
-
-
-```bash```bash
-
-sudo pacman -Syu --needed \sudo pacman -Syu --needed \
-
-  texlive-basic texlive-latexrecommended texlive-latexextra \  texlive-basic texlive-latexrecommended texlive-latexextra \
-
-  texlive-fontsrecommended texlive-binextra \  texlive-fontsrecommended texlive-binextra \
-
-  texlive-langenglish \  texlive-langenglish \
-
-  biber \  biber \
-
-  ghostscript poppler \  ghostscript poppler \
-
-  make \  make \
-
-  code  code
-
+```bash
+sudo pacman -Syu --needed \
+  texlive-basic texlive-latexrecommended texlive-latexextra \
+  texlive-fontsrecommended texlive-binextra \
+  texlive-langenglish \
+  biber \
+  ghostscript poppler \
+  make \
+  code
 ```
 
 Then, in VS Code:
@@ -65,6 +38,7 @@ code --install-extension James-Yu.latex-workshop
 ```
 
 ---
+
 
 ## 2. Project structure
 
@@ -79,7 +53,9 @@ code --install-extension James-Yu.latex-workshop
 
 ---
 
+
 ## 3. Building locally
+
 
 ### 3.1 Build all configured PDFs
 
@@ -88,10 +64,10 @@ make
 ```
 
 This will:
-
 * run `latexmk` with LuaLaTeX,
 * put intermediates + PDFs in `out/`,
 * copy final PDFs (e.g. `main.pdf`, `motivation_letter.pdf`, etc.) to the repo root for quick access.
+
 
 ### 3.2 Live rebuild while editing
 
@@ -101,6 +77,7 @@ make watch
 
 This watches the *first* document in `docs.mk`'s `DOCUMENTS` list and continuously rebuilds on changes.
 
+
 ### 3.3 Clean
 
 ```bash
@@ -108,6 +85,7 @@ make clean
 ```
 
 ---
+
 
 ## 4. VS Code workflow
 
@@ -120,6 +98,7 @@ make clean
 No manual setup needed.
 
 ---
+
 
 ## 5. Multiple documents (CV + motivation letter + whatever)
 
@@ -176,6 +155,7 @@ Order matters for `make watch` only (it watches the first).
 
 ---
 
+
 ## 6. GitHub Releases (automatic PDFs on tag)
 
 ### How it works
@@ -198,6 +178,7 @@ So you can instantly hand over polished PDFs — CV, cover letter, whatever — 
 
 ---
 
+
 ## 7. Notes / tips
 
 * `preamble.tex` is shared across all documents. Tweak it to set fonts, macros, CV entry helpers, theorem envs, etc.
@@ -206,18 +187,16 @@ So you can instantly hand over polished PDFs — CV, cover letter, whatever — 
 
 ---
 
+
 ## 8. Quickstart examples
 
 ### Case A: single PDF (most of the time)
-
 * You only need `main.tex`.
 * `docs.mk`:
-
   ```makefile
   DOCUMENTS := main
   ```
 * Run:
-
   ```bash
   make        # builds main.pdf
   git tag v1.0.0
@@ -228,7 +207,6 @@ So you can instantly hand over polished PDFs — CV, cover letter, whatever — 
 ### Case B: you need CV + motivation letter this time
 
 1. Make new docs:
-
    ```bash
    cp main.tex cv.tex
    cp main.tex motivation_letter.tex
@@ -236,20 +214,17 @@ So you can instantly hand over polished PDFs — CV, cover letter, whatever — 
    ```
 
 2. Edit `docs.mk`:
-
    ```makefile
    DOCUMENTS := cv motivation_letter
    ```
 
 3. Build locally:
-
    ```bash
    make
    ls cv.pdf motivation_letter.pdf
    ```
 
 4. Release them:
-
    ```bash
    git add .
    git commit -m "Add CV + motivation letter"
@@ -264,5 +239,3 @@ No Makefile surgery. No CI edits. Just update `docs.mk`.
 ---
 
 ## License
-
-Use whatever license you want. MIT is fine.
