@@ -1,241 +1,92 @@
-# LaTeX Project Template (LuaLaTeX, multi-doc aware)
+# LaTeX Template
 
-General-purpose LaTeX template for:
-- CV / resume
-- motivation letter
-- papers / homework / reports
-- slides (if you change the `\documentclass` to beamer)
-- multiple independent PDFs in one repo
+> Multi-document LaTeX template with LuaLaTeX, VS Code support, and automated PDF releases via GitHub Actions.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Highlights
+## Features
 
-- **LuaLaTeX** (Unicode + system fonts)
-- `latexmk` incremental builds
-- VS Code + LaTeX Workshop config baked in
-- `docs.mk` controls which PDFs get built
-- GitHub Actions builds every PDF listed in `docs.mk` on tag push and uploads them to a Release
----
+- 🚀 **LuaLaTeX** with Unicode and system fonts
+- 📦 **Multi-document support** — build multiple PDFs from one repo
+- ⚡ **VS Code integration** — LaTeX Workshop configured out of the box
+- 🤖 **Auto-release** — tag a commit, get PDFs in GitHub Releases
+- 🔄 **Live preview** — `make watch` for continuous rebuilds
 
-
-## 1. Local requirements (Arch Linux example)
+## Quick Start
 
 ```bash
-sudo pacman -Syu --needed \
-  texlive-basic texlive-latexrecommended texlive-latexextra \
-  texlive-fontsrecommended texlive-binextra \
-  texlive-langenglish \
-  biber \
-  ghostscript poppler \
-  make \
-  code
+# Build all documents
+make
+
+# Watch for changes (rebuilds on save)
+make watch
+
+# Clean build artifacts
+make clean
 ```
 
-Then, in VS Code:
+## Usage
 
-```bash
-code --install-extension James-Yu.latex-workshop
-```
+### Single Document
 
----
-
-
-## 2. Project structure
-
-* `main.tex` – your first standalone document (CV, report, etc.)
-* `preamble.tex` – shared packages/macros/fonts/etc.
-* `sections/` – chunks you can `\input{}` from any document
-* `refs.bib` – shared bibliography
-* `figs/` – images
-* `docs.mk` – **list of top-level documents to build**
-* `Makefile` – builds all docs in `docs.mk`
-* `.github/workflows/build-and-release.yml` – CI that builds + uploads PDFs as Release assets
-
----
-
-
-## 3. Building locally
-
-
-### 3.1 Build all configured PDFs
-
+Edit `main.tex` and build:
 ```bash
 make
 ```
 
-This will:
-* run `latexmk` with LuaLaTeX,
-* put intermediates + PDFs in `out/`,
-* copy final PDFs (e.g. `main.pdf`, `motivation_letter.pdf`, etc.) to the repo root for quick access.
+### Multiple Documents
 
+1. Create your documents:
+   ```bash
+   cp main.tex cv.tex
+   cp main.tex cover_letter.tex
+   ```
 
-### 3.2 Live rebuild while editing
+2. Edit `docs.mk`:
+   ```makefile
+   DOCUMENTS := cv cover_letter
+   ```
 
-```bash
-make watch
-```
+3. Build:
+   ```bash
+   make  # Generates cv.pdf and cover_letter.pdf
+   ```
 
-This watches the *first* document in `docs.mk`'s `DOCUMENTS` list and continuously rebuilds on changes.
+### Automated Releases
 
-
-### 3.3 Clean
-
-```bash
-make clean
-```
-
----
-
-
-## 4. VS Code workflow
-
-* Open this repo in VS Code.
-* Edit `main.tex` (or any other `.tex` file you add).
-* Save.
-* LaTeX Workshop uses `latexmk` (LuaLaTeX backend) and writes output to `out/`.
-* PDF preview opens in a split tab.
-
-No manual setup needed.
-
----
-
-
-## 5. Multiple documents (CV + motivation letter + whatever)
-
-This is where `docs.mk` comes in.
-
-### Step 1. Create new doc(s)
-
-Say you want:
-
-* `cv.tex`
-* `motivation_letter.tex`
-
-You can base them off `main.tex`:
-
-```bash
-cp main.tex cv.tex
-cp main.tex motivation_letter.tex
-# edit them down (titles, remove abstract, etc.)
-```
-
-Tweak their metadata (`\title{}`, `\author{}`, maybe remove the abstract for a short motivation letter, etc.). You *can* leave the shared `\input{preamble.tex}` in all of them — that's the point.
-
-### Step 2. Tell the build system
-
-Open `docs.mk` and set:
-
-```makefile
-DOCUMENTS := cv motivation_letter
-```
-
-Now:
-
-* `make` builds `cv.pdf` and `motivation_letter.pdf`
-* `make watch` will watch `cv.tex` (the first one in the list)
-* CI will include both in the GitHub Release
-
-If you only need one doc again later (just a single report or paper), set:
-
-```makefile
-DOCUMENTS := report
-```
-
-and create `report.tex`. You don't need to keep `main.tex` at all if you don't want it.
-
-### Q: Can I keep `main.tex` around and add others?
-
-Absolutely. Just do:
-
-```makefile
-DOCUMENTS := main cv motivation_letter
-```
-
-Order matters for `make watch` only (it watches the first).
-
----
-
-
-## 6. GitHub Releases (automatic PDFs on tag)
-
-### How it works
-
-When you tag a commit, e.g.:
-
+Push a git tag to automatically build and release PDFs:
 ```bash
 git tag v1.0.0
 git push origin v1.0.0
 ```
 
-the GitHub Action will:
+GitHub Actions will build all documents and attach them to the release.
 
-1. Install LaTeX on Ubuntu
-2. Run `make release-build` (which builds every doc in `docs.mk`)
-3. Create (or update) a GitHub Release for that tag
-4. Attach *all the generated PDFs* as downloadable assets
+## Project Structure
 
-So you can instantly hand over polished PDFs — CV, cover letter, whatever — without telling someone how to build LaTeX.
+```
+├── main.tex          # Main document
+├── preamble.tex      # Shared packages and macros
+├── sections/         # Reusable content sections
+├── refs.bib          # Bibliography
+├── figs/             # Images
+├── docs.mk           # Document list for build system
+└── Makefile          # Build automation
+```
 
----
+## Requirements
 
+**Linux (Arch example):**
+```bash
+sudo pacman -S texlive-basic texlive-latexrecommended texlive-latexextra \
+               texlive-fontsrecommended biber make
+```
 
-## 7. Notes / tips
-
-* `preamble.tex` is shared across all documents. Tweak it to set fonts, macros, CV entry helpers, theorem envs, etc.
-* Different docs can comment out stuff they don't need. For example, in `motivation_letter.tex` you can remove the abstract block or not call `\printbibliography`.
-* For slides: create `slides.tex` using `\documentclass{beamer}` and add it to `DOCUMENTS`.
-
----
-
-
-## 8. Quickstart examples
-
-### Case A: single PDF (most of the time)
-* You only need `main.tex`.
-* `docs.mk`:
-  ```makefile
-  DOCUMENTS := main
-  ```
-* Run:
-  ```bash
-  make        # builds main.pdf
-  git tag v1.0.0
-  git push origin v1.0.0
-  ```
-* Grab `main.pdf` from the GitHub Release.
-
-### Case B: you need CV + motivation letter this time
-
-1. Make new docs:
-   ```bash
-   cp main.tex cv.tex
-   cp main.tex motivation_letter.tex
-   # edit them down (titles, remove abstract, etc.)
-   ```
-
-2. Edit `docs.mk`:
-   ```makefile
-   DOCUMENTS := cv motivation_letter
-   ```
-
-3. Build locally:
-   ```bash
-   make
-   ls cv.pdf motivation_letter.pdf
-   ```
-
-4. Release them:
-   ```bash
-   git add .
-   git commit -m "Add CV + motivation letter"
-   git tag job-app-2025-10-28
-   git push origin job-app-2025-10-28
-   ```
-
-5. Download both PDFs from the GitHub Release named `job-app-2025-10-28`.
-
-No Makefile surgery. No CI edits. Just update `docs.mk`.
-
----
+**VS Code:**
+```bash
+code --install-extension James-Yu.latex-workshop
+```
 
 ## License
+
+MIT License - see [LICENSE](LICENSE) for details.
