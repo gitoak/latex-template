@@ -76,10 +76,20 @@ GitHub Actions will build all documents and attach them to the release.
 
 ## Requirements
 
-**Linux (Arch example):**
+**Linux (Arch):**
 ```bash
 sudo pacman -S texlive-basic texlive-latexrecommended texlive-latexextra \
-               texlive-fontsrecommended biber make
+               texlive-fontsrecommended texlive-fontsextra texlive-binaries \
+               texlive-luatex texlive-bibtexextra biber latexmk make
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt-get update
+sudo apt-get install -y texlive-base texlive-latex-recommended \
+                        texlive-latex-extra texlive-fonts-recommended \
+                        texlive-fonts-extra texlive-binaries texlive-luatex \
+                        texlive-bibtex-extra biber latexmk make
 ```
 
 **VS Code:**
