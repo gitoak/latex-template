@@ -79,8 +79,8 @@ GitHub Actions will build all documents and attach them to the release.
 **Linux (Arch):**
 ```bash
 sudo pacman -S texlive-basic texlive-latexrecommended texlive-latexextra \
-               texlive-fontsrecommended texlive-fontsextra texlive-binaries \
-               texlive-luatex texlive-bibtexextra biber latexmk make
+               texlive-fontsrecommended texlive-fontsextra texlive-bin \
+               texlive-bin extra texlive-luatex texlive-bibtexextra biber make
 ```
 
 **Linux (Ubuntu/Debian):**
